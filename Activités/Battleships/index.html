@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Battleships</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <!-- FILES -->
+        <script type="text/javascript" src="/Battleships/config.json"></script>
+        <!-- SCRIPTS -->
+        <script src="Controller.js"></script>
+        
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="grid-wrapper">
+                <!-- BACKGROUND IMAGE -->
+                <img src="images/grid_background.png" id="backImg">
+                <!-- GRID CONTAINTER -->
+                <div class="grid-container grid-size">
+                    
+                    <!-- grid elements: <div class="grid-item"><img src="default.png" id="00"></div> -->
+                </div>
+            </div>
+            <div class="menu-wrapper">
+                
+                <div class="interface-wrapper">
+                    <!-- BACKGROUND IMAGE -->
+
+                    <!-- CURRENT TEAM -->
+                    <div class="team-wrapper">
+                        <div class="custom-select" style="width:80%; height:100%;">
+                            <select id="my-select">
+                                <option value="0">Équipe:</option>
+                            </select>
+                        </div>
+                        <button class="refresh-btn">OK</button>
+                    </div>
+                    <!-- SOLUTION BUTTON -->
+                    <div class="solution-wrapper">
+                        <button class="solution-btn">Show solution</button>
+                    </div>
+
+                    <!-- SCORE -->
+                    <div class="score-container"></div>
+                </div>
+                <div class="ship-wrapper">
+                    <!-- BACKGROUND IMAGE -->
+
+                    <div class="ship-container ship-size">
+                        <!-- grid elements: <div class="ship-item boat"></div> -->
+                    </div>
+                </div>
+                
+
+                </div>
+                
+            </div>
+        </div>
+    </body>
+    <!-- SCRIPTS -->
+    <script src="custom_select.js"></script>
+    <script src="script.js"></script>
+</html>

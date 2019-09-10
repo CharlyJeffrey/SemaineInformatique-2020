@@ -14,7 +14,7 @@ class Battleship :
             nships {int} -- Nombre de navires averses qui seront générés.
      """
 
-    __slots__ = ["_row_char", "_col_char", "_row", "_col", "_nships", "_nteam", "_map", "_grid", "_char"]
+    __slots__ = ["_row_char", "_col_char", "_row", "_col", "_nships", "_nteam", "_grid", "_char"]
 
     def __init__(self, row_char : list, col_char : list, nships : int, nteam : int) :
         
@@ -25,7 +25,6 @@ class Battleship :
         self._col = []
         self._nships = nships
         self._nteam = nteam
-        self._map = {}
         self._char = col_char + row_char 
 
         # Initialise les valeurs des rangées
@@ -50,22 +49,6 @@ class Battleship :
                 self._grid[i*len(self._col) + j] = self._row[i] + self._col[j]
             # FIN BOUCLE 'j'
         # FIN BOUCLE 'i'
-
-        # Initialise la map
-        size = int(log2(len(self._char)))
-        for i in range(len(self._char)):
-            p = size
-            n = i
-            tmp = ""
-            while (p >= 0):
-                if (n - 2**p >= 0) :
-                    tmp += "1"
-                    n -= 2**p
-                else:
-                    tmp += '0'
-                p -= 1
-            tmp = '0' * (size - len(tmp)) + tmp
-            self._map[self._char[i]] = tmp
         return
 
     @staticmethod
@@ -94,9 +77,10 @@ class Battleship :
         Keyword Arguments:
             PATH {str} -- Chemin (default: {None})
         """
-        # Obtient le chemin principale  
+        # Si un chemin est précisé, le répertoire y est ajouté 
         if PATH:
             PATH += "/Battleships"
+        # Sinon, ajoute le répertoire au répertoire présent
         else:
             PATH = os.getcwd() + "/Battleships"
 
@@ -136,22 +120,22 @@ class Battleship :
             c = self._grid[index]
             _c = ""
             for i in range(len(c)):
-                _c += self._map[c[i]]
+                # Obtient le string binaire de la valeur 'ASCII' du char
+                _c += bin(ord(c[i]))[2:]
                 if (i + 1 != len(c)):
                     _c += '-'
             encrypted.append(_c)
         return coord, encrypted
     
-    def GenerateFiles(self, PATH : str, PATH_TEAM : str, JSON = True):
+    def GenerateFiles(self, PATH : str, PATH_TEAM : str):
         """
-        Méthode pour générer les fichiers
+        Méthode pour générer les fichiers «config.json» et «Equipe_XX.txt».
+        Le fichier «config.json» contient la configuration du jeu et
+        les fichiers «Equipe_XX.txt» contiennent les coordonnées encryptées.
         
         Arguments:
             PATH {str} -- Chemin principale.
             PATH_TEAM {str} -- Chemin où les fichiers des coordonnées encryptées seront.
-            
-        Keyword Arguments:
-            JSON {bool} -- Détermine si les fichiers seront enregistrés en format JSON. Vrai par défaut.
         """
         # Crée le fichier config.json
         config = Battleship.OpenFile(PATH, "config.json")
@@ -179,7 +163,7 @@ class Battleship :
             coords.append(coord)
             self.WriteEncryptedFile(i, enc, PATH_TEAM)
 
-        # Ajoute les solutions à la config
+        # Ajoute les solutions à config
         # Écrit les coordonnées
         config.write('    "coords" : [')
         for i in range(self._nteam - 1):
@@ -215,15 +199,7 @@ class Battleship :
         fp_e.write(enc[i])
         # Ferme le fichier
         fp_e.close()
-
-    def printGrid(self):
-        for i in range(len(self._row)) :
-            _ = ""
-            for j in range(len(self._col)):
-                _ += self._grid[i*len(self._col) + j]
-            print(_)
-        return
-                
+         
 
 if __name__ == "__main__":
 
@@ -249,7 +225,5 @@ if __name__ == "__main__":
     col = [str(i) for i in range(10)]
 
     Generator = Battleship(row, col, nships, nteam)
-    Generator.printGrid()
-    
     PATH, PATH_EQUIPE = Battleship.CreateDirectories()
     Generator.GenerateFiles(PATH, PATH_EQUIPE)

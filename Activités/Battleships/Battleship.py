@@ -49,7 +49,10 @@ class Battleship :
                 self._grid[i*len(self._col) + j] = self._row[i] + self._col[j]
             # FIN BOUCLE 'j'
         # FIN BOUCLE 'i'
-        return
+	
+        # Cap le nombre de bateaux
+        if (nships > len(self._row) * len(self._col)): 
+            self._nships = len(self._row) * len(self._col)
 
     @staticmethod
     def OpenFile(PATH : str, FILE_NAME : str):
@@ -65,7 +68,7 @@ class Battleship :
             return fp
         except FileNotFoundError:
             print("\033[0;31mERROR:\033[00m Directory or File not found:")
-            print("~"+PATH+"/"+FILE+"\n")
+            print("~"+PATH+"/"+FILE_NAME+"\n")
             print("Exit program.")
             exit()
     
@@ -195,7 +198,8 @@ class Battleship :
 
         # Boucle sur les coordonnées
         for i in range(len(enc) - 1):
-            fp_e.write(enc[i] + " ")
+            fp_e.write(enc[i])
+            fp_e.write("\n")
         fp_e.write(enc[i])
         # Ferme le fichier
         fp_e.close()
@@ -206,20 +210,20 @@ if __name__ == "__main__":
     args = sys.argv[1:]
 
     if len(args) != 2:
-        print("\033[0;33mWARNING:\033[00m Invalid arguments.")
-        print("         Usage: python3 Battleship.py number_of_ships number_of_team")
-        print("         The default parameters will be use.\n")
-        nships = 17
+        nships = 30
         nteam = 15
+        print("\033[0;33mWARNING:\033[00m Missing arguments.")
+        print("         Usage: python3 Battleship.py number_of_ships number_of_team")
+        print("         The default parameters «"+str(nships)+"» and «"+str(nteam)+"» will be use.\n")
     else:
         try:
             nships = int(args[0])
             nteam = int(args[1])
         except ValueError:
-            print("\033[0;31mERROR:\033[00m The parameters need to be integers.")
-            print("       The default parameters will be use.\n")
-            nships = 17
+            nships = 30
             nteam = 15
+            print("\033[0;31mERROR:\033[00m The parameters need to be integers.")
+            print("       The default parameters «"+str(nships)+"» and «"+str(nteam)+"» will be use.\n")
 
     row = ["A", "B", "C", "D"]
     col = [str(i) for i in range(10)]

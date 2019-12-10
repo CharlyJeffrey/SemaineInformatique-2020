@@ -1,34 +1,24 @@
 from math import log
-
-# Première facon
-def DecodeurBinaire(bstring : str):
-    # Initialise le nombre
-    n = 0
-    # Taille de bstring
-    length = len(bstring)
-    # Boucle sur le nombre d'élément de bstring
-    for i in range(length):
-        # Détermine si le ie element s'agit de '1'
-        if (bstring[i] == '1'):
-            # Augmente la valeur de 'n'
-            n += 2 ** (length - 1 - i)
-    # Retourne la valeur de 'n'
-    return n
-
-
-
-# Première fonction 
+ 
 def BinairyToDecimal(bstring : str):
     """
     Fonction pour passer de la représentation binaire à décimale
 
     Arguments:
-        bstring {str} -- Nombre binaire
+        bstring {str} -- Representation binaire
     
     Return:
-        n {int} -- Nombre en base décimal résultant
+        n {int} -- Valeur décimal
     """
-
+    # Vérifie que 'bstring' est un string
+    if type(bstring) != str:
+        print("L'argument doit être un string binaire")
+        return
+    # Vérifie si 'bstring' est bien une representation binaire
+    for bit in bstring:
+        if bit != '0' or bit != '1':
+            print("L'argument n'est pas une representation binaire.")
+            return
     # Initialise la puissance
     p = len(bstring) - 1
     # Initialise le résultat
@@ -39,25 +29,24 @@ def BinairyToDecimal(bstring : str):
             n += 2 ** p
         p -= 1
     # Retourne la valeur
-    return str(n)
+    return n
     
 
-# De décimal à binaire
 def DecimalToBinairy(dstring : str):
     """
     Fonction pour passer de la représentation décimale à binaire
     
     Arguments:
-        dstring {str} -- Nombre décimal
+        dstring {str} -- Valeur décimal
     
     Returns:
-        bstring {str} -- Nombre binaire
+        bstring {str} -- Representation binaire
     """
     # Obtient la valeur numérique
     try:
         d = int(dstring)
     except ValueError:
-        print("Le string '" +dstring+ "' n'est pas un nombre décimal.")
+        print("Le string '" +dstring+ "' n'est pas un nombre entier.")
         return None
 
     # Initialise la puissance
@@ -79,28 +68,42 @@ def DecimalToBinairy(dstring : str):
     return bstring
 
 
-def BaseOneToBaseTwo(b1_string: str, base_one: int, base_two: int):
+def BaseOneToBaseTwo(rep_base_one: str, base_one: int, base_two: int):
     """
     Fonction pour passer de la représentation en base 1 vers la base 2
     
     Arguments:
-        b1_string {str} -- Nombre représenté dans la base 1 (base_one)
+        rep_base_one {str} -- Nombre représenté dans la base 1 (base_one)
         base_one {int} -- Base dans laquelle le nombre est représenté
         base_two {int} -- Base dans laquelle on veut représenter le nombre
     
     Returns:
-        b2_string {str} -- Nombre représenté dans la base 2 (base_2)
+        rep_base_two {str} -- Nombre représenté dans la base 2 (base_2)
     """
+    # Vérifie que les bases soient des chiffres
+    if (type(base_one) != int or type(base_two) != int):
+        try:
+            base_one = int(base_one) 
+            base_two = int(base_two)
+        except ValueError:
+            print("Les bases doivent être des chiffres en 1 et 10 inclusivement.")
+            return
+
+    # Vérifie que les bases soient entre 1 et 9 (inclusivement)
+    if (base_one < 1 or 10 < base_one or base_two < 1 or 10 < base_two):
+        print("Les bases doivent être des chiffres en 1 et 10 inclusivement.")
+        return 
+    
     # Obtient le nombre en base décimal
     d = 0
-    for i in range(len(b1_string)):
-        d += int(b1_string[i]) * base_one ** (len(b1_string) - i - 1)
+    for i in range(len(rep_base_one)):
+        d += int(rep_base_one[i]) * base_one ** (len(rep_base_one) - i - 1)
 
     # Initialise la puissance
     p = int(log(d) / log(base_two))
 
     # Initialise le résultat
-    b2_string = ""
+    rep_base_two = ""
 
     # Boucle pour déterminer le nombre dans la base 2
     while (p >= 0):
@@ -110,10 +113,8 @@ def BaseOneToBaseTwo(b1_string: str, base_one: int, base_two: int):
         while (d - base_two ** p >= 0):
             c += 1
             d -= base_two ** p
-        # 
-        b2_string += str(c)
+        # Ajoute le 'b2-bit'
+        rep_base_two += str(c)
         p -= 1
     
-    return b2_string
-
-
+    return rep_base_two

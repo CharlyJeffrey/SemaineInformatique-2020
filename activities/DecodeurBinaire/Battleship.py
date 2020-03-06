@@ -18,6 +18,8 @@ def DecodeurCoordonnees(FILE_NAME : str):
     lines = f.readlines()
     # Boucle sur chacune des lignes
     for line in lines:
+        # Affiche la ligne
+        print(line)
         # Variable pour stocker la coordonnée
         coord = ""
         # Ignore le caractere '\n'

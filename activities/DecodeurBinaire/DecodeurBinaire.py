@@ -16,7 +16,7 @@ def BinairyToDecimal(bstring : str):
         return
     # Vérifie si 'bstring' est bien une representation binaire
     for bit in bstring:
-        if bit != '0' or bit != '1':
+        if bit != '0' and bit != '1':
             print("L'argument n'est pas une representation binaire.")
             return
     # Initialise la puissance
@@ -57,11 +57,16 @@ def DecimalToBinairy(dstring : str):
 
     # Boucle pour déterminer le string binaire
     while (p >= 0):
+        # Détermine si 2^p fait aprti de d
         if (d - 2 ** p >= 0):
+            # Met le bit à 1
             bstring += '1'
+            # Enleve 2^p à d
             d -= 2 ** p
         else:
+            # Met le bit à 0
             bstring += '0'
+        # Reduit la puissance
         p -= 1
     
     # Retourne le résultat
@@ -89,7 +94,7 @@ def BaseOneToBaseTwo(rep_base_one: str, base_one: int, base_two: int):
             print("Les bases doivent être des chiffres en 1 et 10 inclusivement.")
             return
 
-    # Vérifie que les bases soient entre 1 et 9 (inclusivement)
+    # Vérifie que les bases soient entre 1 et 10 (inclusivement)
     if (base_one < 1 or 10 < base_one or base_two < 1 or 10 < base_two):
         print("Les bases doivent être des chiffres en 1 et 10 inclusivement.")
         return 
@@ -105,11 +110,11 @@ def BaseOneToBaseTwo(rep_base_one: str, base_one: int, base_two: int):
     # Initialise le résultat
     rep_base_two = ""
 
-    # Boucle pour déterminer le nombre dans la base 2
+    # Boucle pour déterminer le nombre dans la seconde base
     while (p >= 0):
         # Compteur
         c = 0
-        #
+        # Boucle pour déterminer le "p-ieme" digit
         while (d - base_two ** p >= 0):
             c += 1
             d -= base_two ** p
@@ -118,3 +123,55 @@ def BaseOneToBaseTwo(rep_base_one: str, base_one: int, base_two: int):
         p -= 1
     
     return rep_base_two
+
+# Bloc de tests
+if __name__ == "__main__":
+    # Nombres en base '2'
+    bstring_one = "10010101"
+    bstring_two = "10101001"
+    
+    # Nombres en base'10'
+    dstring_one = "152"
+    dstring_two = "12451"
+
+    # Nombres en base '5'
+    cstring_one = "00010"
+    cstring_two = "42102"
+
+    # Tests
+    print("========================================")
+    print("         Test BinairyToDecimal          ")
+    print("========================================\n\n")
+
+    x = BinairyToDecimal(bstring_one)
+    y = BinairyToDecimal(bstring_two)
+
+    print(f"{bstring_one} ---> {x}")
+    print(f"{bstring_two} ---> {y}")
+
+    print("\n")
+
+    print("========================================")
+    print("         Test DecimalToBinairy          ")
+    print("========================================\n\n")
+
+    x = DecimalToBinairy(dstring_one)
+    y = DecimalToBinairy(dstring_two)
+
+    print(f"{dstring_one} ---> {x}")
+    print(f"{dstring_two} ---> {y}")
+
+    print("\n")
+
+
+    print("========================================")
+    print("         Test BaseOneToBaseTwo          ")
+    print("========================================\n\n")
+
+    x = BaseOneToBaseTwo(cstring_one, 5, 10)
+    y = BaseOneToBaseTwo(cstring_two, 5, 10)
+
+    print(f"{cstring_one} ---> {x}")
+    print(f"{cstring_two} ---> {y}")
+
+    print("\n")

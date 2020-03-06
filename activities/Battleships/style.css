@@ -152,14 +152,6 @@ html, body, .wrapper {
 	content: url("images/question_mark.svg");
 }
 
-.boat {
-	content: url("images/ship.svg");
-}
-
-.boat-down {
-	content: url("images/ship_down.svg");
-}
-
 /**********************************************
 		SELECT RELATED
 **********************************************/
